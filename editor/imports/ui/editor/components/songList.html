@@ -1,0 +1,23 @@
+<color height="15"></color>
+<time-stats></time-stats>
+
+<md-list class="layout-padding" style="min-height: 200px">
+    <md-list-item ng-repeat="song in $ctrl.songs track by song._id" ng-click="$ctrl.selectSection(song, $event)" class="md-2-line">
+        <div class="index" flex="none">
+            <p>{{ $index +1 }}.</p>
+            <!--<p ng-if="$ctrl.isPlaying(song)"><md-icon>pause</md-icon></p>-->
+        </div>
+        <div class="md-list-item-text" layout="column">
+            <h3>{{ song.name }}</h3>
+            <p ng-if="$ctrl.isPlaying(song)">Now playing: <span class="text-bold is-playing">{{ song.play.value }}</span></p>
+        </div>
+
+
+        <md-button ng-click="$ctrl.show(song, $event)" class="md-icon-button"><md-icon>playlist_add</md-icon></md-button>
+    </md-list-item>
+    <div class="spacer">
+
+    </div>
+    <new-song></new-song>
+</md-list>
+

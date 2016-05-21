@@ -1,0 +1,33 @@
+<md-bottom-sheet id="selectionSelector" class="md-list md-has-header" ng-cloak>
+  <md-subheader>
+    {{ $ctrl.song.current && 'Playing' || '' }} {{ $ctrl.song.name }}
+    <br><small>Click section name to play</small>
+  </md-subheader>
+  <md-list>
+    <md-list-item ng-repeat="(name, section) in $ctrl.song.sections track by name" class="section">
+      <md-button
+          ng-click="$ctrl.select(name)"
+          class="md-list-item-content" ng-class="$ctrl.song.current && $ctrl.song.play.value===name && 'md-raised md-primary md-hue-2' || ''">
+          <md-icon ng-show="$ctrl.song.current && $ctrl.song.play.value===name">check</md-icon>
+        <span class="md-inline-list-icon-label">{{ name }}</span>
+      </md-button>
+    </md-list-item>
+
+    <md-list-item ng-if="$ctrl.song.current">
+      <md-button ng-click="$ctrl.pause()" class="md-accent md-hue-3"><md-icon>pause</md-icon> Pause</md-button>
+    </md-list-item>
+
+    <md-list-item>
+
+      <span flex></span>
+
+      <md-button ng-click="$ctrl.cancel()" class="md-warn md-hue-3">Hide</md-button>
+
+      <md-switch ng-model="$ctrl.keepOpen"> Keep opened</md-switch>
+
+    </md-list-item>
+
+
+
+  </md-list>
+</md-bottom-sheet>

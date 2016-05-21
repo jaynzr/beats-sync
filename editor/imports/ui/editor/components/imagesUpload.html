@@ -1,0 +1,28 @@
+    <md-card ngf-drop ngf-select ngf-change="$ctrl.addImages($files)" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}"  ngf-multiple="false" ngf-allow-dir="false" ngf-accept="'image/*'" ngf-drop-available="true" ng-hide="$ctrl.cropImgSrc" class="drop-box">
+        <div class="content">
+            <div>Click here to select image</div>
+            <div>
+                <strong>OR</strong>
+            </div>
+            <div>You can also drop image to here</div>
+            <p><em>Image will be resized to <strong>w414 h736</strong></em></p>
+        </div>
+    </md-card>
+    <md-card ng-show="$ctrl.cropImgSrc" class="ng-crop-container">
+        <img-crop image="$ctrl.cropImgSrc" result-image="$ctrl.myCroppedImage" area-type="rectangle" aspect-ratio="0.5625" result-image-size="'max'" area-init-size="{w:414,h:736}" area-min-relative-size="{w:414,h:736}" result-image-quality="1.0"></img-crop>
+        <div flex></div>
+        <md-card-actions>
+            <md-button ng-click="$ctrl.save()" class="md-primary">
+                Save
+            </md-button>
+            <md-button ng-click="$ctrl.reset()">
+                Cancel
+            </md-button>
+        </md-card-actions>
+
+    </md-card>
+    <!--<div layout="row" class="images-container-title">
+        <div class="party-image-container" ng-class="{'main-image': $index === 0}" ng-repeat="thumb in $ctrl.thumbs">
+            <img ng-src="{{ thumb.url }}" />
+        </div>
+    </div>-->

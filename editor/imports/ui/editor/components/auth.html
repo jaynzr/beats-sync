@@ -1,0 +1,6 @@
+<div layout="row">
+  <md-button href="/editor/login" ng-hide="auth.isLoggedIn">Login</md-button>
+  <md-button href="/editor/register" ng-if="auth.isLoggedIn" class="md-icon-button"><md-icon>person_add</md-icon></md-button>
+  <md-button ng-click="auth.logout()" ng-show="auth.isLoggedIn">Logout</md-button>
+  <!--<div ng-show="auth.isLoggedIn">{{ auth.currentUser | displayNameFilter }}</div>-->
+</div>

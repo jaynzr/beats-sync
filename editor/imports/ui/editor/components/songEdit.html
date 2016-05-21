@@ -1,0 +1,127 @@
+<md-dialog flex="90" flex-sm="100" class="songEdit">
+
+    <form>
+
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{ $ctrl.song && $ctrl.song.name || "New Song" }}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                <md-icon>close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-tabs md-border-bottom md-dynamic-height md-autoselect>
+                <md-tab label="General">
+                    <md-content class="md-padding">
+                        <div layout-gt-xs="row">
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>Title</label>
+                                <input ng-model="$ctrl.editable.name" required="required">
+                            </md-input-container>
+                            <md-input-container class="md-block">
+                                <label>BPM</label>
+                                <input ng-model="$ctrl.editable.bpm" type="number" required="required">
+                            </md-input-container>
+                        </div>
+
+                        <div layout="row">
+                            <md-button ng-click="$ctrl.saveDetail()" class="md-primary md-raised">Save</md-button>
+                            <span flex></span>
+                            <md-button ng-click="$ctrl.deleteSong()" class="md-warn md-raised">Delete</md-button>
+
+                        </div>
+
+                        <md-card ng-if="$ctrl.hasSections()">
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <small ng-style="{'visibility': $ctrl.song.current && 'visible' || 'hidden'}">Now playing</small>
+                                    <em style="font-weight:bold; text-transform:uppercase">{{ $ctrl.song.play.value }}</em>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <md-card-actions layout="row" layout-align="start center" layout-wrap>
+                                <md-button ng-click="$ctrl.pause()" class="md-fab md-mini"><md-icon>{{ $ctrl.song.current && 'pause' || 'play_arrow' }}</md-icon></md-button>
+
+                                <span flex></span>
+
+                                <md-button ng-repeat="(name, section) in $ctrl.song.sections track by name" ng-class="{'md-accent md-raised': $ctrl.song.play.value===name}" ng-click="$ctrl.play(name)">{{ name }}</md-button>
+                            </md-card-actions>
+                            <md-card-content ng-if="$ctrl.song.sections[$ctrl.song.play.value].sequence.length">
+                                <sequence-graph bpm="$ctrl.editable.bpm" sequence="$ctrl.song.sections[$ctrl.song.play.value].sequence" height="50" width="auto"></sequence-graph>
+
+                            </md-card-content>
+                        </md-card>
+
+                    </md-content>
+                </md-tab>
+
+                <md-tab ng-repeat="(name, section) in $ctrl.editable.sections track by name" ng-init="section.newName=name" label="{{name}}">
+                    <md-content class="md-padding">
+                        <div layout="row">
+                            <md-input-container flex=50>
+                                <label>Section name</label>
+                                <input ng-model="section.newName" type="text">
+                                <div class="hint">alpha-numberic, underscore, space</div>
+                            </md-input-container>
+                            <div>
+                                <md-button ng-click="$ctrl.renameSection(name, section)" class="md-raised">Rename</md-button>
+                            </div>
+                            <div flex></div>
+                            <div>
+                                <md-button ng-click="$ctrl.deleteSection(name)" class="md-raised md-warn">Delete Section</md-button>
+                            </div>
+                        </div>
+                        <md-input-container class="md-block">
+                            <label>Sequence</label>
+                            <textarea ng-model="$ctrl.strSequence[name]" rows="5"></textarea>
+                            <div class="hint">comma separated. eg, <em>red, blue, #fefefe, #ccc, random</em>. Minimum 2 required, may be of same color.</div>
+                        </md-input-container>
+
+                        <div layout="row">
+                            <md-button ng-click="$ctrl.previewSequence(name)">Preview</md-button>
+                            <md-button ng-click="$ctrl.updateSequence(name)" class="md-raised ">Save</md-button>
+                        </div>
+
+
+                        <sequence-graph ng-if="section.sequence.length" bpm="$ctrl.editable.bpm" sequence="section.sequence"  height="50"></sequence-graph>
+                    </md-content>
+                </md-tab>
+
+                <md-tab label="+">
+                    <md-content class="md-padding">
+                        <md-input-container class="md-block">
+                            <label>New Section Name</label>
+                            <input ng-model="$ctrl.newSection.section">
+                            <div class="hint">alpha-numberic, underscore, space</div>
+                        </md-input-container>
+                        <md-button ng-click="$ctrl.addSection()" class="md-hue-1 md-raised">Add</md-button>
+
+                        <!--<md-input-container class="md-block">
+                            <label>Sequence (comma separated. eg, red, blue, #fefefe, #ccc)</label>
+                            <textarea ng-model="$ctrl.newSection.sequence" rows="5"></textarea>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Order</label>
+                            <md-select ng-model="$ctrl.newSection.order">
+                                <md-option value="-1">Last</md-option>
+                                <md-option ng-repeat="o in $ctrl.editable.order" value="{{$index}}">
+                                    Before {{o.section}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>-->
+
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="$ctrl.cancel()" class="md-primary">
+                Done
+            </md-button>
+
+        </md-dialog-actions>
+    </form>
+
+</md-dialog>
